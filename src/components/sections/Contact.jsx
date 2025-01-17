@@ -118,7 +118,7 @@ const Contact = () => {
       .then(
         (result) => {
           alert("Message Sent");
-          form.current.result();
+          form.current.reset();
         },
         (error) => {
           alert(error);
