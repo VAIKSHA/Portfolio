@@ -96,19 +96,6 @@ const ContactButton = styled.button`
   }
 `;
 
-const Alert = styled.div`
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  background-color: #28a745;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  display: ${({ show }) => (show ? "block" : "none")};
-  transition: opacity 0.5s ease;
-`;
-
 const Contact = () => {
   const form = useRef();
   const [name, setName] = useState("");
@@ -116,7 +103,6 @@ const Contact = () => {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [isPressed, setIsPressed] = useState(false); // State for button press
-  const [showAlert, setShowAlert] = useState(false); // State to control alert visibility
 
   const handleMouseDown = () => {
     setIsPressed(true);
@@ -164,10 +150,7 @@ const Contact = () => {
     emailjs
       .send(serviceId, templateId, templateParams, publicKey)
       .then((response) => {
-        setShowAlert(true);
-        setTimeout(() => {
-          setShowAlert(false);
-        }, 3000);
+        alert("Message Sent");
         console.log("Message Sent", response);
         setName("");
         setEmail("");
@@ -226,7 +209,6 @@ const Contact = () => {
           </ContactButton>
         </ContactForm>
       </Wrapper>
-      <Alert show={showAlert}>Message Sent</Alert>
     </Container>
   );
 };
