@@ -1,51 +1,42 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 import emailjs from "@emailjs/browser";
 
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  justify-contnet: center;
-  position: rlative;
-  z-index: 1;
   align-items: center;
+  position: relative;
+  z-index: 1;
 `;
 
 const Wrapper = styled.div`
   position: relative;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   max-width: 1100px;
   gap: 12px;
-  @media (max-width: 960px) {
-    flex-direction: column;
-  }
 `;
+
 const Title = styled.div`
   font-size: 52px;
   text-align: center;
   font-weight: 600;
   margin-top: 20px;
-  color: ${({ theme }) => theme.text_primary};
-  @media (max-width: 768px) {
-    margin-top: 12px;
-    font-size: 32px;
-  }
+  color: ${({ theme }) => theme?.text_primary || "#000"};
 `;
+
 const Desc = styled.div`
   font-size: 18px;
   text-align: center;
   font-weight: 600;
-  color: ${({ theme }) => theme.text_secondary};
-  @media (max-width: 768px) {
-    font-size: 16px;
-  }
+  color: ${({ theme }) => theme?.text_secondary || "#555"};
 `;
 
-const ContactForm = styled.div`
+const ContactForm = styled.form`
   width: 95%;
   max-width: 600px;
   display: flex;
@@ -55,96 +46,187 @@ const ContactForm = styled.div`
   padding: 32px;
   border-radius: 12px;
   box-shadow: rgba(23, 92, 230, 0.1) 0px 4px 24px;
-  margin-top: 28px;
   gap: 12px;
 `;
+
 const ContactTitle = styled.div`
   font-size: 28px;
-  margin-bottom: 6px;
   font-weight: 600;
-  color: ${({ theme }) => theme.text_primary};
+  color: ${({ theme }) => theme?.text_primary || "#fff"};
 `;
-const ContactInput = styled.input`
-  flex: 1;
+
+const Input = styled.input`
   background-color: transparent;
-  border: 1px solid ${({ theme }) => theme.text_secondary + 50};
+  border: 1px solid ${({ theme }) => theme?.text_secondary + "50" || "#ccc"};
   outline: none;
   font-size: 18px;
-  color: ${({ theme }) => theme.text_primary};
+  color: ${({ theme }) => theme?.text_primary || "#fff"};
   border-radius: 12px;
   padding: 12px 16px;
   &:focus {
-    border: 1px solid ${({ theme }) => theme.primary};
+    border: 1px solid ${({ theme }) => theme?.primary || "#007bff"};
   }
 `;
-const ContactInputMessage = styled.textarea`
-  flex: 1;
+
+const TextArea = styled.textarea`
   background-color: transparent;
-  border: 1px solid ${({ theme }) => theme.text_secondary + 50};
+  border: 1px solid ${({ theme }) => theme?.text_secondary + "50" || "#ccc"};
   outline: none;
   font-size: 18px;
-  color: ${({ theme }) => theme.text_primary};
+  color: ${({ theme }) => theme?.text_primary || "#fff"};
   border-radius: 12px;
   padding: 12px 16px;
   &:focus {
-    border: 1px solid ${({ theme }) => theme.primary};
+    border: 1px solid ${({ theme }) => theme?.primary || "#007bff"};
   }
 `;
-const ContactButton = styled.input`
+
+const ContactButton = styled.button`
   width: 100%;
-  text-decoration: none;
   text-align: center;
-  background: hsla(271, 100%, 50%, 1);
   padding: 13px 16px;
-  margin-top: 2px;
   border-radius: 12px;
   border: none;
-  color: ${({ theme }) => theme.text_primary};
+  color: ${({ theme }) => theme?.text_primary || "#fff"};
   font-size: 18px;
   font-weight: 600;
+  background-color: ${({ isPressed }) => (isPressed ? "hsla(271, 0%, 0%, 1)" : "hsla(271, 100%, 50%, 1)")};
+  &:hover {
+    background-color: ${({ isPressed }) => (isPressed ? "#45a049" : "rgb(108, 2, 207)")};
+  }
+`;
+
+const Alert = styled.div`
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background-color: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  display: ${({ show }) => (show ? "block" : "none")};
+  transition: opacity 0.5s ease;
 `;
 
 const Contact = () => {
   const form = useRef();
-  const handelSubmit = (e) => {
-    e.preventDefault();
-    emailjs
-      .sendForm(
-        "service_d8o2689",
-        "template_5ic4rd7",
-        form.current,
-        "MtZcyc7iINRoM_yj7"
-      )
-      .then(
-        (result) => {
-          alert("Message Sent");
-          form.current.reset();
-        },
-        (error) => {
-          alert(error);
-        }
-      );
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [isPressed, setIsPressed] = useState(false); // State for button press
+  const [showAlert, setShowAlert] = useState(false); // State to control alert visibility
+
+  const handleMouseDown = () => {
+    setIsPressed(true);
   };
+
+  const handleMouseUp = () => {
+    setIsPressed(false);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (!name.trim()) {
+      alert("Please fill in your name.");
+      return;
+    }
+
+    if (!email.trim()) {
+      alert("Please fill in your email.");
+      return;
+    }
+
+    if (!subject.trim()) {
+      alert("Please fill in the subject.");
+      return;
+    }
+
+    if (!message.trim()) {
+      alert("Please fill in your message.");
+      return;
+    }
+
+    const serviceId = "service_d8o2689";
+    const templateId = "template_5ic4rd7";
+    const publicKey = "MtZcyc7iINRoM_yj7";
+
+    const templateParams = {
+      from_name: name,
+      from_email: email,
+      subject: subject,
+      to_name: "Vishal",
+      message: message,
+    };
+
+    emailjs
+      .send(serviceId, templateId, templateParams, publicKey)
+      .then((response) => {
+        setShowAlert(true);
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 3000);
+        console.log("Message Sent", response);
+        setName("");
+        setEmail("");
+        setSubject("");
+        setMessage("");
+      })
+      .catch((error) => {
+        alert("Error in Sending Email");
+        console.log("Error in Sending Email", error);
+      });
+  };
+
   return (
     <Container id="Education">
       <Wrapper>
         <Title>Contact</Title>
-        <Desc
-          style={{
-            marginBottom: "40px",
-          }}
-        >
-          Feel free to reach out to me for any questions or opportunities!
-        </Desc>
-        <ContactForm onSubmit={handelSubmit}>
+        <Desc>Feel free to reach out to me for any questions or opportunities!</Desc>
+        <ContactForm ref={form} onSubmit={handleSubmit}>
           <ContactTitle>Ask Your Query 🚀</ContactTitle>
-          <ContactInput placeholder="Your Name" name="from_name" />
-          <ContactInput placeholder="Your Email" name="from_email" />
-          <ContactInput placeholder="Subject" name="subject" />
-          <ContactInputMessage placeholder="Message" name="message" rows={4} />
-          <ContactButton type="submit" value="Send" />
+          <Input
+            type="text"
+            placeholder="Your name"
+            name="from_name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <Input
+            type="email"
+            placeholder="Your email"
+            name="from_email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Input
+            type="text"
+            placeholder="Subject"
+            name="subject"
+            value={subject}
+            onChange={(e) => setSubject(e.target.value)}
+          />
+          <TextArea
+            rows="4"
+            placeholder="Message"
+            name="message"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+          />
+          <ContactButton
+            type="submit"
+            isPressed={isPressed}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp} // Reset on leaving the button area
+          >
+            Send
+          </ContactButton>
         </ContactForm>
       </Wrapper>
+      <Alert show={showAlert}>Message Sent</Alert>
     </Container>
   );
 };
