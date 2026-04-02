@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
+import ReactDOM from "react-dom";
 import styled from "styled-components";
 import { Bio } from "../../data/constants";
 import Typewriter from "typewriter-effect";
@@ -132,29 +133,12 @@ const SubTitle = styled.div`
   }
 `;
 
-const ResumeButton = styled.a`
-  -webkit-appearance: button;
-  -moz-appearance: button;
-  appearance: button;
-  text-decoration: none;
-
+const ResumeButton = styled.button`
   width: 95%;
   max-width: 300px;
   text-align: center;
   padding: 16px 0;
-
-  background: hsla(271, 100%, 50%, 1);
   background: linear-gradient(
-    225deg,
-    hsla(271, 100%, 50%, 1) 0%,
-    hsla(294, 100%, 50%, 1) 100%
-  );
-  background: -moz-linear-gradient(
-    225deg,
-    hsla(271, 100%, 50%, 1) 0%,
-    hsla(294, 100%, 50%, 1) 100%
-  );
-  background: -webkit-linear-gradient(
     225deg,
     hsla(271, 100%, 50%, 1) 0%,
     hsla(294, 100%, 50%, 1) 100%
@@ -163,20 +147,40 @@ const ResumeButton = styled.a`
   border-radius: 50px;
   font-weight: 600;
   font-size: 20px;
-
-     &:hover {
-        transform: scale(1.05);
+  border: none;
+  cursor: pointer;
+  color: white;
+  &:hover {
+    transform: scale(1.05);
     transition: all 0.4s ease-in-out;
-    box-shadow:  20px 20px 60px #1F2634,
-    filter: brightness(1);
-    }    
-    
-    
-    @media (max-width: 640px) {
-        padding: 12px 0;
-        font-size: 18px;
-    } 
-    color: white;
+  }
+  @media (max-width: 640px) {
+    padding: 12px 0;
+    font-size: 18px;
+  }
+`;
+
+const DropdownMenu = styled.div`
+  position: fixed;
+  background: #1f2634;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  z-index: 9999;
+`;
+
+const DropdownItem = styled.a`
+  display: block;
+  padding: 14px 24px;
+  color: white;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background: hsla(271, 100%, 50%, 0.25);
+  }
 `;
 
 const Img = styled.img`
@@ -217,7 +221,39 @@ const HeroBg = styled.div`
   }
 `;
 
+const resumeOptions = [
+  { label: "Software Developer", file: "Software%20developer.pdf" },
+  { label: "Content Creator", file: "Content%20creator.pdf" },
+  { label: "Video Editor", file: "Video%20editor.pdf" },
+  { label: "Fullstack Developer", file: "Fullstack%20developer.pdf" },
+];
+
 const Hero = () => {
+  const [resumeOpen, setResumeOpen] = useState(false);
+  const [dropdownStyle, setDropdownStyle] = useState({});
+  const btnRef = useRef(null);
+
+  useEffect(() => {
+    if (resumeOpen && btnRef.current) {
+      const rect = btnRef.current.getBoundingClientRect();
+      setDropdownStyle({
+        top: rect.bottom + 8,
+        left: rect.left,
+        width: rect.width,
+      });
+    }
+  }, [resumeOpen]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (btnRef.current && !btnRef.current.contains(e.target)) {
+        setResumeOpen(false);
+      }
+    };
+    if (resumeOpen) document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [resumeOpen]);
+
   return (
     <div id="About">
       <HeroContainer>
@@ -251,9 +287,33 @@ const Hero = () => {
                 <SubTitle>{Bio.description}</SubTitle>
               </motion.div>
 
-              <ResumeButton href={Bio.resume} target="_blank">
+              <ResumeButton
+                ref={btnRef}
+                onClick={() => setResumeOpen(!resumeOpen)}
+              >
                 Check Resume
               </ResumeButton>
+
+              {resumeOpen &&
+                ReactDOM.createPortal(
+                  <DropdownMenu style={dropdownStyle}>
+                    {resumeOptions.map((r) => (
+                      <DropdownItem
+                        key={r.label}
+                        href={`/resume/${r.file}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setResumeOpen(false);
+                        }}
+                      >
+                        📄 {r.label}
+                      </DropdownItem>
+                    ))}
+                  </DropdownMenu>,
+                  document.body
+                )}
             </HeroLeftContainer>
             <HeroRightContainer>
               <motion.div {...headContentAnimation}>

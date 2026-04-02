@@ -126,8 +126,64 @@ const MobileMenu = styled.ul`
   z-index: ${({ isOpen }) => (isOpen ? "1000" : "-1000")};
 `;
 
+const ResumeDropdown = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const ResumeButton = styled.button`
+  border: 1px solid ${({ theme }) => theme.primary};
+  color: ${({ theme }) => theme.primary};
+  background: transparent;
+  border-radius: 20px;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.6s ease-in-out;
+  &:hover {
+    background: ${({ theme }) => theme.primary};
+    color: ${({ theme }) => theme.text_primary};
+  }
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  right: 0;
+  top: 48px;
+  background: ${({ theme }) => theme.card_light};
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  min-width: 200px;
+  z-index: 1000;
+  overflow: hidden;
+`;
+
+const DropdownItem = styled.a`
+  display: block;
+  padding: 12px 20px;
+  color: ${({ theme }) => theme.text_primary};
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s;
+  &:hover {
+    background: ${({ theme }) => theme.primary + "33"};
+    color: ${({ theme }) => theme.primary};
+  }
+`;
+
+const resumeOptions = [
+  { label: "Software Developer", file: "Software%20developer.pdf" },
+  { label: "Content Creator", file: "Content%20creator.pdf" },
+  { label: "Video Editor", file: "Video%20editor.pdf" },
+  { label: "Fullstack Developer", file: "Fullstack%20developer.pdf" },
+];
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [resumeOpen, setResumeOpen] = useState(false);
   const theme = useTheme();
   return (
     <Nav>
@@ -163,6 +219,17 @@ const Navbar = () => {
             <NavLink onClick={() => setIsOpen(!isOpen)} href="#Education">
               Education
             </NavLink>
+            {resumeOptions.map((r) => (
+              <NavLink
+                key={r.label}
+                href={`/resume/${r.file}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsOpen(false)}
+              >
+                📄 {r.label}
+              </NavLink>
+            ))}
             <GithubButton
               href={Bio.github}
               target="_Blank"
@@ -176,7 +243,27 @@ const Navbar = () => {
           </MobileMenu>
         )}
 
-        <ButtonContainer>
+        <ButtonContainer style={{ gap: "12px" }}>
+          <ResumeDropdown>
+            <ResumeButton onClick={() => setResumeOpen(!resumeOpen)}>
+              Check Resume
+            </ResumeButton>
+            {resumeOpen && (
+              <DropdownMenu>
+                {resumeOptions.map((r) => (
+                  <DropdownItem
+                    key={r.label}
+                    href={`/resume/${r.file}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setResumeOpen(false)}
+                  >
+                    {r.label}
+                  </DropdownItem>
+                ))}
+              </DropdownMenu>
+            )}
+          </ResumeDropdown>
           <GithubButton href={Bio.github} target="_Blank">
             Github Profile
           </GithubButton>

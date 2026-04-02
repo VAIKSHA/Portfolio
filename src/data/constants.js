@@ -182,11 +182,10 @@ export const projects = [
     date: "Jan 2025",
     description:
       "JEE Path-Finder is a React-based web app designed for IIT-JEE aspirants. It features Google login, task management via a sidebar, a calendar for tracking deadlines, and a search bar for quick task retrieval, helping students stay organized and focused on their goals.",
-      image:
-      "https://drive.google.com/file/d/1D_ttOaNVCmgWZmo7D7mZVvXTcFrIJ3n-/view?usp=sharing",
+      image: require("../images/jeepathfinder.png"),
     tags: ["React Js", "MongoDB", "Express", "Node JS"],
     category: "web app",
-    github: "",
+    github: "https://github.com/VAIKSHA/JEE",
     webapp: "",
   },
   {
@@ -195,8 +194,7 @@ export const projects = [
     date: "Nov 2024",
     description:
     "A React-based web app that showcases food items from the GoFood platform. It integrates with a public API to fetch food data and includes a search feature for users to find their favorite dishes quickly. The app offers a clean and responsive interface for an enhanced user experience.",
-    image:
-    "",
+    image: require("../images/gofood.png"),
     tags: ["React Js", "MongoDB", "Express", "Node JS"],
     category: "web app",
     github: "https://github.com/VAIKSHA/GoFood",
@@ -208,11 +206,10 @@ export const projects = [
     date: "In Future",
     description:
       "A android quiz app made with Java and Firebase. It has a login page where users can log in with their Google account. It has a sidebar where users can see all the quiz categories and can create a new quiz. It has a leaderboard where users can see the top 10 scorers. It has a search bar where users can search for a particular quiz.",
-    image: 
-    "",
+    image: require("../images/quiz.png"),
     tags: ["Java", "Android Studio", "Firebase", "Google Auth"],
     category: "android app",
-    github: "",
+    github: "https://github.com/VAIKSHA/quiz",
     webapp: "",
   },
 ];
