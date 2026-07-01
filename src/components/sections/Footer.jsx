@@ -106,7 +106,7 @@ const Footer = () => {
             <Instagram />
           </SocialMediaIcon>
         </SocialMediaIcons>
-        <Copyright>&copy; 2024 Vishal Sharma. All rights reserved.</Copyright>
+        <Copyright>&copy; 2026 Vishal Sharma. All rights reserved.</Copyright>
       </FooterWrapper>
     </FooterContainer>
   );
