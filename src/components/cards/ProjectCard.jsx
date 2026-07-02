@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 const Card = styled.div`
   width: 330px;
-  height: 490px;
+  height: 540px;
   background-color: ${({ theme }) => theme.card};
   cursor: pointer;
   border-radius: 10px;
@@ -89,10 +89,22 @@ const Avatar = styled.img`
   border: 3px solid ${({ theme }) => theme.card};
 `;
 const Button = styled.a`
-  color: ${({ theme }) => theme.primary};
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  text-align: center;
   text-decoration: none;
   font-weight: 600;
-  text-align: center;
+  color: ${({ theme }) => theme.primary};
+  border: 2px solid ${({ theme }) => theme.primary};
+  border-radius: 8px;
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: ${({ theme }) => theme.primary};
+    color: ${({ theme }) => theme.card};
+  }
 `;
 
 const ProjectCard = ({ project }) => {
@@ -110,9 +122,14 @@ const ProjectCard = ({ project }) => {
           <Avatar src={member.img} />
         ))}
       </Members>
-      <Button href={project.github} target="_blank">
+      <Button href={project.github} target="_blank" rel="noopener noreferrer">
         View Code
       </Button>
+      {project.webapp && (
+      <Button href={project.webapp} target="_blank" rel="noopener noreferrer">
+        Visit Website
+      </Button>
+      )}
     </Card>
   );
 };

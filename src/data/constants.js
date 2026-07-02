@@ -214,46 +214,6 @@ export const education = [
   },
 ];
 
-// export const projects = [
-//   {
-//     id: 0,
-//     title: "JEE Path-Finder",
-//     date: "Jan 2025",
-//     description:
-//       "JEE Path-Finder is a React-based web app designed for IIT-JEE aspirants. It features Google login, task management via a sidebar, a calendar for tracking deadlines, and a search bar for quick task retrieval, helping students stay organized and focused on their goals.",
-//       image: require("../images/jeepathfinder.png"),
-//     tags: ["React Js", "MongoDB", "Express", "Node JS"],
-//     category: "web app",
-//     github: "https://github.com/VAIKSHA/JEE",
-//     webapp: "",
-//   },
-//   {
-//     id: 1,
-//     title: "GoFood Website",
-//     date: "Nov 2024",
-//     description:
-//     "A React-based web app that showcases food items from the GoFood platform. It integrates with a public API to fetch food data and includes a search feature for users to find their favorite dishes quickly. The app offers a clean and responsive interface for an enhanced user experience.",
-//     image: require("../images/gofood.png"),
-//     tags: ["React Js", "MongoDB", "Express", "Node JS"],
-//     category: "web app",
-//     github: "https://github.com/VAIKSHA/GoFood",
-//     webapp: "",
-//   },
-//   {
-//     id: 2,
-//     title: "Quiz App",
-//     date: "In Future",
-//     description:
-//       "A android quiz app made with Java and Firebase. It has a login page where users can log in with their Google account. It has a sidebar where users can see all the quiz categories and can create a new quiz. It has a leaderboard where users can see the top 10 scorers. It has a search bar where users can search for a particular quiz.",
-//     image: require("../images/quiz.png"),
-//     tags: ["Java", "Android Studio", "Firebase", "Google Auth"],
-//     category: "android app",
-//     github: "https://github.com/VAIKSHA/quiz",
-//     webapp: "",
-//   },
-// ];
-
-///////////////
 export const projects = [
   {
     id: 0,
@@ -273,7 +233,7 @@ export const projects = [
     ],
     category: "web app",
     github: "https://github.com/VAIKSHA/GoFood",
-    webapp: "",
+    webapp: "https://gofood40.netlify.app/",
   },
 
   {
@@ -293,7 +253,7 @@ export const projects = [
     ],
     category: "portfolio",
     github: "https://github.com/VAIKSHA/Portfolio",
-    webapp: "",
+    webapp: "https://vishalsharma40.netlify.app/",
   },
 
   {
@@ -312,7 +272,7 @@ export const projects = [
     ],
     category: "web app",
     github: "https://github.com/VAIKSHA/quiz",
-    webapp: "",
+    webapp: "https://quiz40.netlify.app/",
   },
 
   {
@@ -332,7 +292,7 @@ export const projects = [
     ],
     category: "web app",
     github: "https://github.com/VAIKSHA/JEE",
-    webapp: "",
+    webapp: "https://jeepathfinder40.netlify.app/",
   },
 
   {
@@ -351,7 +311,7 @@ export const projects = [
     ],
     category: "web app",
     github: "https://github.com/VAIKSHA/messmate-nitp",
-    webapp: "",
+    webapp: "https://messmate-nitp.netlify.app/",
   },
 
   {
@@ -370,6 +330,6 @@ export const projects = [
     ],
     category: "business website",
     github: "https://github.com/VAIKSHA/SonuTent",
-    webapp: "",
+    webapp: "https://sonutenthouse40.netlify.app/",
   },
 ];
